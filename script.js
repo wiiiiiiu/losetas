@@ -1,4 +1,5 @@
 let animationFrame = 0;
+let tileData = null;
 
 function drawTiles() {
   const baseW = parseFloat(document.getElementById('baseWidth').value);
@@ -23,24 +24,27 @@ function drawTiles() {
   const cols = Math.floor(colsExact);
   const rows = Math.floor(rowsExact);
 
-  window.tileData = { baseW, baseH, tileW, tileH, scale, offsetX, offsetY, cols, rows, colsExact, rowsExact, totalExact };
+  tileData = { baseW, baseH, tileW, tileH, scale, offsetX, offsetY, cols, rows, colsExact, rowsExact, totalExact };
 
-  animateTiles();
+  document.getElementById("resultado").textContent =
+    `Losetas completas: ${cols * rows} | Total exacto (incluyendo fracción): ${totalExact.toFixed(2)}`;
+
+  requestAnimationFrame(animateTiles);
 }
 
 function animateTiles() {
-  const { baseW, baseH, tileW, tileH, scale, offsetX, offsetY, cols, rows, colsExact, rowsExact, totalExact } = window.tileData;
+  if (!tileData) return; 
+
+  const { baseW, baseH, tileW, tileH, scale, offsetX, offsetY, cols, rows, colsExact, rowsExact } = tileData;
   const canvas = document.getElementById('canvas');
   const ctx = canvas.getContext('2d');
 
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  // Dibujar base
   ctx.strokeStyle = "#ffffff";
   ctx.lineWidth = 2;
   ctx.strokeRect(offsetX, offsetY, baseW * scale, baseH * scale);
 
-  // Dibujar losetas completas
   for (let r = 0; r < rows; r++) {
     for (let c = 0; c < cols; c++) {
       drawTile(ctx, offsetX + c * tileW * scale, offsetY + r * tileH * scale, tileW * scale, tileH * scale);
@@ -64,9 +68,6 @@ function animateTiles() {
   if (extraW > 0 && extraH > 0) {
     drawTile(ctx, offsetX + cols * tileW * scale, offsetY + rows * tileH * scale, extraW * scale, extraH * scale, true);
   }
-
-  document.getElementById("resultado").textContent =
-    `Losetas completas: ${cols * rows} | Total exacto (incluyendo fracción): ${totalExact.toFixed(2)}`;
 
   animationFrame += 0.05;
   requestAnimationFrame(animateTiles);
