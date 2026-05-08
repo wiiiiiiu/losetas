@@ -5,7 +5,7 @@ Este proyecto permite **calcular y visualizar cuántas losetas caben en una base
 ---
 
 ## PROBAR
-[👉 [Abrir en GitHub Pages](https://tuusuario.github.io/visualizador-losetas/)
+[👉 [Abrir en GitHub Pages](https://wiiiiiiu.github.io/losetas/)
 
 ---
 
