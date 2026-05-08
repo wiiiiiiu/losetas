@@ -29,13 +29,14 @@ function drawTiles() {
   document.getElementById("resultado").textContent =
     `Losetas completas: ${cols * rows} | Total exacto (incluyendo fracción): ${totalExact.toFixed(2)}`;
 
+  animationFrame = 0;
   requestAnimationFrame(animateTiles);
 }
 
 function animateTiles() {
-  if (!tileData) return; 
+  if (!tileData) return;
 
-  const { baseW, baseH, tileW, tileH, scale, offsetX, offsetY, cols, rows, colsExact, rowsExact } = tileData;
+  const { baseW, baseH, tileW, tileH, scale, offsetX, offsetY, cols, rows, colsExact, rowsExact, totalExact } = tileData;
   const canvas = document.getElementById('canvas');
   const ctx = canvas.getContext('2d');
 
