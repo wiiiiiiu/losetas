@@ -1,4 +1,4 @@
-let baseW = 0, baseH = 0, tileW = 0, tileH = 0;
+let baseW = 0, baseH = 0, tileW = 0, tileH = 0, tilePrice = 0;
 let t = 0;
 let particles = [];
 
@@ -8,6 +8,7 @@ function drawTiles() {
     baseH = parseInt(document.getElementById("baseHeight").value);
     tileW = parseInt(document.getElementById("tileWidth").value);
     tileH = parseInt(document.getElementById("tileHeight").value);
+    tilePrice = parseFloat(document.getElementById("tilePrice")?.value) || 0;
 
     const canvas = document.getElementById("canvas");
     const ctx = canvas.getContext("2d");
@@ -22,13 +23,22 @@ function drawTiles() {
     let rows = baseH / tileH;
     let total = cols * rows;
 
+    let totalRedondeado = Math.ceil(total);
+
     document.getElementById("resultado").innerText =
-      `Caben: ${total.toFixed(2)} losetas (${cols.toFixed(2)} × ${rows.toFixed(2)})`;
+      `Caben: ${total.toFixed(2)} losetas (${cols.toFixed(2)} × ${rows.toFixed(2)}) → Redondeado: ${totalRedondeado}`;
+
+    if (tilePrice > 0) {
+      let costoTotal = totalRedondeado * tilePrice;
+      document.getElementById("costo").innerText =
+        `Costo total: $${costoTotal.toFixed(2)} (precio por loseta: $${tilePrice})`;
+    } else {
+      document.getElementById("costo").innerText = "";
+    }
 
     canvas.dataset.scale = scale;
 
     createParticles(canvas.width, canvas.height);
-
     animate();
   });
 }
